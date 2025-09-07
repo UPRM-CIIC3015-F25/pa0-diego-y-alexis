@@ -23,7 +23,8 @@ def ball_movement():
         if abs(ball.bottom - player.top) < 10:  # Check if ball hits the top of the paddle
             # TODO Task 2: Fix score to increase by 1
             score += 1  # Increase player score
-            ball_speed_y *= -1  # Reverse ball's vertical direction
+            ball_speed_y *= -1.1  # Reverse ball's vertical direction
+            ball_speed_x *= 1.1
             # TODO Task 6: Add sound effects HERE
 
     # Ball collision with top boundary
@@ -76,8 +77,8 @@ bg_color = pygame.Color('grey12')
 # Game Rectangles (ball and player paddle)
 ball = pygame.Rect(screen_width / 2 - 15, screen_height / 2 - 15, 30, 30)  # Ball (centered)
 # TODO Task 1 Make the paddle bigger
-player_height = 15
-player_width = 100
+player_height = 30
+player_width = 150
 player = pygame.Rect(screen_width/2 - 45, screen_height - 20, player_width, player_height)  # Player paddle
 
 # Game Variables
