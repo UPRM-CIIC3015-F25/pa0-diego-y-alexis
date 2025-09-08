@@ -94,6 +94,23 @@ basic_font = pygame.font.Font('freesansbold.ttf', 32)  # Font for displaying sco
 
 start = False  # Indicates if the game has started
 
+#circle mask
+def create_circular_image(image, size):
+    circle_surface = pygame.Surface(size, pygame.SRCALPHA)
+    scaled_image = pygame.transform.scale(image, size)
+    circle_surface.blit(scaled_image, (0, 0))
+
+    mask = pygame.Surface(size, pygame.SRCALPHA)
+    pygame.draw.ellipse(mask, (255, 255, 255, 255), (0, 0, size[0], size[1]))
+    circle_surface.blit(mask, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+    return circle_surface
+
+#cicular mask on
+ball_image = pygame.image.load("PA0 image.png")
+circular_ball_image = create_circular_image(ball_image, (30,30))
+
+
 # Main game loop
 while True:
     # Event handling
@@ -126,7 +143,9 @@ while True:
     screen.fill(bg_color)  # Clear screen with background color
     pygame.draw.rect(screen, light_grey, player)  # Draw player paddle
     # TODO Task 3: Change the Ball Color
-    pygame.draw.ellipse(screen, seagreen, ball)  # Draw ball
+    ball_rect = pygame.Rect(ball.x, ball.y, 30, 30)
+    screen.blit(circular_ball_image, (ball.x, ball.y))
+    pygame.draw.ellipse(screen, seagreen, ball, 2)
     player_text = basic_font.render(f'{score}', False, light_grey)  # Render player score
     screen.blit(player_text, (screen_width/2 - 15, 10))  # Display score on screen
 
