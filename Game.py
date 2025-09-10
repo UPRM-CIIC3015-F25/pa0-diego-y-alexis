@@ -1,5 +1,6 @@
 import pygame, sys, random
 
+#Functions
 def ball_movement():
     """
     Handles the movement of the ball and collision detection with the player and screen boundaries.
@@ -62,6 +63,17 @@ def restart():
     ball_speed_y, ball_speed_x = 0, 0  # Stop ball movement
     score = 0  # Reset player score
 
+def create_circular_image(image, size):
+    circle_surface = pygame.Surface(size, pygame.SRCALPHA)
+    scaled_image = pygame.transform.scale(image, size)
+    circle_surface.blit(scaled_image, (0, 0))
+
+    mask = pygame.Surface(size, pygame.SRCALPHA)
+    pygame.draw.ellipse(mask, (255, 255, 255, 255), (0, 0, size[0], size[1]))
+    circle_surface.blit(mask, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
+
+    return circle_surface
+
 # General setup
 pygame.mixer.pre_init(44100, -16, 1, 1024)
 pygame.init()
@@ -75,6 +87,8 @@ pygame.display.set_caption('Pong')  # Set window title
 
 # Colors
 bg_color = pygame.Color('grey12')
+light_grey = pygame.Color('grey83')
+seagreen = pygame.Color('seagreen4')
 
 # Game Rectangles (ball and player paddle)
 ball = pygame.Rect(screen_width / 2 - 15, screen_height / 2 - 15, 30, 30)  # Ball (centered)
@@ -94,17 +108,7 @@ basic_font = pygame.font.Font('freesansbold.ttf', 32)  # Font for displaying sco
 
 start = False  # Indicates if the game has started
 
-#circle mask
-def create_circular_image(image, size):
-    circle_surface = pygame.Surface(size, pygame.SRCALPHA)
-    scaled_image = pygame.transform.scale(image, size)
-    circle_surface.blit(scaled_image, (0, 0))
 
-    mask = pygame.Surface(size, pygame.SRCALPHA)
-    pygame.draw.ellipse(mask, (255, 255, 255, 255), (0, 0, size[0], size[1]))
-    circle_surface.blit(mask, (0, 0), special_flags=pygame.BLEND_RGBA_MULT)
-
-    return circle_surface
 
 #cicular mask on
 ball_image = pygame.image.load("PA0 image.png")
@@ -138,8 +142,6 @@ while True:
     player_movement()
 
     # Visuals
-    light_grey = pygame.Color('grey83')
-    seagreen = pygame.Color('seagreen4')
     screen.fill(bg_color)  # Clear screen with background color
     pygame.draw.rect(screen, light_grey, player)  # Draw player paddle
     # TODO Task 3: Change the Ball Color
